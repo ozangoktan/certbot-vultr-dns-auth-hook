@@ -48,11 +48,10 @@ def create_record(domain, txt_value):
     to_add = f"_acme-challenge.{domain}".lower()
     print(f"Creating {to_add} TXT: {txt_value}")
     zone = find_zone_for_name(domain)
-    create_params = {"name": to_add, "type": "TXT", "data": f"'{txt_value}'"}
+    create_params = {"name": to_add, "type": "TXT", "data": f"{txt_value}"}
     vultr_request("POST", "/" + zone, "/records", create_params)
 
-    print("Will sleep {} seconds to wait for DNS cluster to reload".
-          format(VULTR_BIND_DELAY))
+    print(f"Will sleep {VULTR_BIND_DELAY} seconds to wait for DNS cluster to reload")
     sleep(VULTR_BIND_DELAY)
 
 
@@ -65,10 +64,9 @@ def remove_record(domain, txt_value):
 
     to_remove = to_remove[:-len(zone)-1]
 
-    found = [rec for rec in recs["records"] if rec.get("name") == to_remove and rec.get("type") == "TXT" and rec["data"] == f"\"\'{txt_value}\'\""]
+    found = [rec for rec in recs["records"] if rec.get("name") == to_remove and rec.get("type") == "TXT" and rec["data"] == f"\"{txt_value}\""]
     if len(found) == 0:
-        print("Could not find record to remove: {} with value {}".
-              format(to_remove, txt_value))
+        print(f"Could not find record to remove: {to_remove} with value {txt_value}")
         return
 
     vultr_request("DELETE", "/" + zone, "/records/" + found[0]["id"])
