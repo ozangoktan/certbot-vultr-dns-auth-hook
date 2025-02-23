@@ -71,15 +71,3 @@ def remove_record(domain, txt_value):
 
     vultr_request("DELETE", "/" + zone, "/records/" + found[0]["id"])
 
-
-act = sys.argv[1]
-
-if act == "create":
-    create_record(os.environ["CERTBOT_DOMAIN"],
-                  os.environ["CERTBOT_VALIDATION"])
-elif act == "delete":
-    remove_record(os.environ["CERTBOT_DOMAIN"],
-                  os.environ["CERTBOT_VALIDATION"])
-else:
-    print(f"Unknown action: {act}")
-    exit(1)
