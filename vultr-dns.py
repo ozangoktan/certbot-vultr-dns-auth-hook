@@ -7,8 +7,8 @@ import string
 from time import sleep
 
 # Configure here
-VULTR_API_KEY = "put your api key here"
-VULTR_BIND_DELAY = 30
+VULTR_API_KEY = os.environ["VULTR_API_KEY"]
+VULTR_BIND_DELAY = os.environ.get("VULTR_BIND_DELAY", 30)
 
 
 def vultr_request(method, zone, path, data=None):
